@@ -13,23 +13,46 @@ class App():
         self.lb = tkinter.Listbox(self.tframe, height=10, width=39, yscrollcommand=self.vsbar.set, xscrollcommand=self.hsbar.set)
         self.b_add = tkinter.Button(root, text="add", bd=2, fg="black", command=self.add)
         self.b_delete = tkinter.Button(root, text="delete", bd=2, fg="black", command=self.delete)
-        self.b_done = tkinter.Button(root, text="done", fg="black", command=self.done)
-    
-    def done(self):
+        self.b_check = tkinter.Button(root, text="check", fg="black", command=self.check)
+        self.b_uncheck = tkinter.Button(root, text="uncheck", fg="black", command=self.uncheck)
+
+    def check(self):
         selected = self.lb.curselection()
-        
         if len(selected) == 0:
             return 1
         
         item = self.lb.get(selected)
-        self.lb.delete(selected)
-        self.lb.insert(selected,item + " ✔")
+        if item[len(item)-1] == "✔":
+            return 0
         
+        self.lb.delete(selected)
+        if item[len(item)-1] == "⨯":
+            self.lb.insert(selected, item[:-1] + "✔")
+            return 0
+        
+        self.lb.insert(selected,item + " ✔")
         return 0
+    
+    def uncheck(self):
+        selected = self.lb.curselection()
+        if len(selected) == 0:
+            return 1
+        
+        item = self.lb.get(selected)
+        if item[len(item)-1] == "⨯":
+            return 0
+        
+        self.lb.delete(selected)
+        if item[len(item)-1] == "✔":
+            self.lb.insert(selected, item[:-1] + "⨯")
+            return 0
+        
+        self.lb.insert(selected, item + " ⨯")
+        return 0
+    
     
     def delete(self, event=None):
         selected = self.lb.curselection()
-        
         if len(selected) == 0:
             return 1
         
@@ -40,7 +63,6 @@ class App():
     
     def add(self, event=None):
         user_in = self.ent.get()
-        
         if len(user_in) == 0:
             return 1
         
@@ -53,11 +75,13 @@ class App():
 
 if __name__ == "__main__":
     root = tkinter.Tk()
+    mframe = tkinter.Frame(root)
     root.geometry("800x600")
     root.title("To-Do-List")
-    root.iconbitmap("files.ico")
+    root.iconbitmap("icon.ico")
+    ver = tkinter.Label(root, text="v1.0")
 
-    a = App(root)
+    a = App(mframe)
 
     root.bind("<Return>", a.add)
     root.bind("<Delete>", a.delete)
@@ -67,11 +91,16 @@ if __name__ == "__main__":
     a.vsbar.pack(side=RIGHT, fill="y")
     a.hsbar.pack(side=BOTTOM, fill="x")
     
-    a.ent.place(width=200, x=300, y=225)
+    mframe.pack(ipadx=39, ipady=50)
     a.lbl.pack()
     a.lb.pack()
     a.tframe.pack()
-    a.b_add.place(width=55,height=45, x=370, y=260)
-    a.b_delete.place(width=55,height=45, x=300, y=260)
-    a.b_done.place(width=55,height=45, x=440, y=260)
+    ver.place(x=0, y=0)
+    
+    a.ent.place(width=200, x=67, y=225)
+    a.b_add.place(width=55,height=45, x=30, y=260)
+    a.b_delete.place(width=55,height=45, x=103, y=260)
+    a.b_check.place(width=55,height=45, x=175, y=260)
+    a.b_uncheck.place(width=55,height=45, x=250, y=260)
+
     root.mainloop()
