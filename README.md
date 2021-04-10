@@ -5,4 +5,4 @@ Simple ToDoList App
 
 # Usage  
 Run the main.py  
-python main.py  
+type "python main.py" on cmd/terminal then hit enter
