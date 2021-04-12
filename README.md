@@ -7,4 +7,4 @@ Simple ToDoList App
 this script was tested on python 3.9
 
 Run the main.py  
-type "python main.py" on cmd/terminal then hit enter
+type "python main.py" in cmd/terminal then hit enter
