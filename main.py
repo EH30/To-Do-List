@@ -1,3 +1,4 @@
+import platform
 import sys
 import json
 import todo
@@ -24,7 +25,8 @@ if __name__ == "__main__":
     
     root.geometry("800x500")
     root.title("To-Do-List")
-    root.iconbitmap("icon.ico")
+    if platform.system() == "Windows":
+        root.iconbitmap("icon.ico")
 
     ver = tkinter.Label(root, text="v1.2")
     lbl_ent = tkinter.Label(mframe, text="Enter:")
